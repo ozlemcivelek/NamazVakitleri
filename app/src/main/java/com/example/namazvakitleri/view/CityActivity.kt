@@ -32,6 +32,7 @@ class CityActivity : AppCompatActivity() {
         val view = binding.root
         setContentView(view)
 
+        //searchView
         searchView = binding.searchView
 
         val layoutManager: RecyclerView.LayoutManager = LinearLayoutManager(this)

@@ -6,7 +6,10 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.AppCompatEditText
+import androidx.core.widget.doOnTextChanged
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -32,12 +35,15 @@ class MainActivityPrayerList : AppCompatActivity() {
     private lateinit var myCountyList: ArrayList<County>
     private val countryURL = "https://vakit.vercel.app/"
     private var city: ArrayList<String>? = null
+    private var searchView: AppCompatEditText? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainPrayerListBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        searchView = binding.searchView
 
         myCountyList = ArrayList()
         sharedPreferences = getSharedPreferences("my_shared_pref", MODE_PRIVATE)
@@ -68,6 +74,47 @@ class MainActivityPrayerList : AppCompatActivity() {
             intent.putExtra("city", it.cityName)
             intent.putExtra("county", it.countyName)
             startActivity(intent)
+        }
+
+        recyclerViewAdapter.onDeleteClicked = {
+            myCountyList.remove(it)
+            recyclerViewAdapter.notifyItemRemoved(myCountyList.indexOf(it))
+        }
+
+        searchCity()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        binding.searchView.text = null
+    }
+    private fun searchCity(){
+        searchView?.doOnTextChanged { text, start, before, count ->
+            filterList(text.toString())
+        }
+    }
+
+    private fun filterList(query: String?) {
+        query?.let {
+            val filteredList = ArrayList<County>()
+            for (i in myCountyList) {
+                if (i.countyName.lowercase().contains(query)) {
+                    filteredList.add(i)
+                }
+                else if (i.cityName.lowercase().contains(query)) {
+                    filteredList.add(i)
+                }
+            }
+
+            if(filteredList.isEmpty())
+            {
+                Toast.makeText(this,"No found data", Toast.LENGTH_LONG).show()
+            }
+            else
+            {
+                recyclerViewAdapter?.setFilteredList(filteredList)
+            }
+
         }
     }
 
