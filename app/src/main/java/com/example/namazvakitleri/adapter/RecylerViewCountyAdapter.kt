@@ -9,9 +9,15 @@ import com.example.namazvakitleri.model.County
 class RecylerViewCountyAdapter (private var myCountylist: ArrayList<County>) : RecyclerView.Adapter<RecylerViewCountyAdapter.MyCountyHolder>() {
 
     var onItemClicked: (County) -> Unit = {}
+    var onDeleteClicked: (County) -> Unit = {}
 
     class MyCountyHolder(val binding: RecyclerRowCountyBinding) : RecyclerView.ViewHolder(binding.root){
 
+    }
+
+    fun setFilteredList(filteredList: ArrayList<County>) {
+        this.myCountylist = filteredList
+        notifyDataSetChanged()
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyCountyHolder {
@@ -28,6 +34,9 @@ class RecylerViewCountyAdapter (private var myCountylist: ArrayList<County>) : R
         holder.itemView.setOnClickListener {
             onItemClicked(item)
         }
+        //holder.binding.btnDelete.setOnClickListener {
+        //    onDeleteClicked(item)
+        //}
         holder.binding.recyclerViewTextViewCounty.text = item.countyName
         holder.binding.recyclerViewTextViewCity.text = item.cityName
     }
