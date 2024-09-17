@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">NamazVakitleri</string>
+    <string name="test">Test</string>
+    <string name="search_here">Search Here</string>
+    <string name="prayer_time_for_city">İLÇE İÇİN NAMAZ \n VAKİTLERİ</string>
+    <string name="Imsak">İmsak :</string>
+    <string name="county">ŞEHİR</string>
+    <string name="Gunes">Güneş :</string>
+    <string name="Ogle">Öğle :</string>
+    <string name="Ikindi">İkindi :</string>
+    <string name="Aksam">Akşam :</string>
+    <string name="Yatsi">Yatsı :</string>
+    <string name="save">KAYDET</string>
+</resources>
